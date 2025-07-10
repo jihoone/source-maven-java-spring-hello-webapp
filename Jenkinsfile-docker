@@ -31,14 +31,14 @@ pipeline {
     stage('Build Docker Image') {
       agent { label 'controller' }
       steps {
-        sh 'docker image build -t jihoone/myweb:$BUILD_NUMBER .'
+        sh 'docker image build -t jihoon1008/myweb:$BUILD_NUMBER .'
       }
     }
     
     stage('Tag Docker Image') {
       agent { label 'controller' }
       steps {
-        sh 'docker image tag jihoone/myweb:$BUILD_NUMBER jihoone/myweb:latest' // Tagging with latest
+        sh 'docker image tag jihoon1008/myweb:$BUILD_NUMBER jihoon1008/myweb:latest' // Tagging with latest
       }
     }
     
@@ -46,8 +46,8 @@ pipeline {
       agent { label 'controller' }
       steps {
         withDockerRegistry(credentialsId: 'docker-registry-credential', url: 'https://index.docker.io/v1/') {
-        sh 'docker image push jihoone/myweb:$BUILD_NUMBER' // Tagging with build number
-        sh 'docker image push jihoone/myweb:latest' // Tagging with latest
+        sh 'docker image push jihoon1008/myweb:$BUILD_NUMBER' // Tagging with build number
+        sh 'docker image push jihoon1008/myweb:latest' // Tagging with latest
       }
     }
   }
@@ -55,7 +55,7 @@ pipeline {
   stage('Run Docker Container') {
     agent { label 'controller' }
       steps {
-        sh 'docker container run --detach --name my-tomcat -p 80:8080 jihoone/myweb:latest'
+        sh 'docker container run --detach --name my-tomcat -p 80:8080 jihoon1008/myweb:latest'
       }
     }
   }
